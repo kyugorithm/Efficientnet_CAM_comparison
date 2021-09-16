@@ -1,4 +1,7 @@
 **First of all, I inform you that I made the code using the following.**  
+The performance of EfficientNet should be similar, but VGG or ResNet appeared to be superior.  
+However, in fact, the accuracy verified by someone is more than 98% based on B0. If you find a problem, please suggest an issue.
+
 : https://www.kaggle.com/bassbone/dog-vs-cat-transfer-learning-by-pytorch
 ##  CAM comparison among 4 famous models (EfficientNet-B0, EfficientNet-B1, VGG16, and ResNet50) on Cat2Dog dataset
 Compare CAM results for cat2dog images for each model of EfficientNet-B0, EfficientNet-B1, VGG16, and ResNet50.  
