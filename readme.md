@@ -2,6 +2,8 @@
 Compare CAM results for cat2dog images for each model of EfficientNet-B0, EfficientNet-B1, VGG16, and ResNet50.  
 Through this, we select the most efficient way to give Feature Importance.  
 ![image](https://user-images.githubusercontent.com/40943064/133630586-1bbb498f-63ae-4d06-a826-649ef1e73de2.png)  
+![image](https://user-images.githubusercontent.com/40943064/133632417-909207e5-6350-41d5-9c2b-30ad214568d8.png)  
+
 link : https://www.kaggle.com/c/dogs-vs-cats  
 ## 
 Indirect performance verification of EfficientNet is possible below.  
