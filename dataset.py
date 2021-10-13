@@ -8,20 +8,20 @@ from efficientnet_pytorch import EfficientNet
 from PIL import Image
 from torchvision import models
 
-SIZE = 224
+SIZE = 240
 NUM_CLASS = 2
 MEAN = (0.485, 0.456, 0.406)
 STD = (0.229, 0.224, 0.225)
-BATCH_SIZE = 32
+BATCH_SIZE = 64
 LR = 1e-4
 BASE_DIR = '../input/dogs-vs-cats-redux-kernels-edition'
 DATA_DIR = 'D:/공부/dataset/cat2dog'
 TRAIN_DIR = DATA_DIR + '/train'
 TEST_DIR = DATA_DIR + '/test'
 TEST_RATIO = .1
-NUM_EPOCH = 1
+NUM_EPOCH = 50
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-SEED = 2020
+SEED = 2021
 
 
 
@@ -47,6 +47,7 @@ class ImageTransform():
 
 class DogVsCatDataset(data.Dataset):
     def __init__(self, file_list, transform=None, phase='train'):    
+        
         self.file_list = file_list
         self.transform = transform
         self.phase = phase
@@ -58,11 +59,12 @@ class DogVsCatDataset(data.Dataset):
         img_path = self.file_list[idx]
         img = Image.open(img_path)
         img_transformed = self.transform(img, self.phase)
-        label = img_path.split('\\')[1].split('.')[0]
-        if label == 'dog':
-            label = 1
-        elif label == 'cat':
+
+        if 'cat.' in img_path:
             label = 0
+        elif 'dog.' in img_path:
+            label = 1
+
         return img_transformed, label
 
 
@@ -71,7 +73,6 @@ class DogVsCatDataset(data.Dataset):
 ## function
 def create_params_to_update(net, update_params_name_1):
     params_to_update_1 = []
-
     for name, param in net.named_parameters():
         if name in update_params_name_1:
             param.requires_grad = True
@@ -109,6 +110,8 @@ def train_model(net, train_dataloader, criterion, optimizer, num_epoch):
         
         for inputs, labels in train_dataloader:
             EPOCH_ITER += BATCH_SIZE
+
+            
             inputs, labels = inputs.to(DEVICE), labels.to(DEVICE)
             optimizer.zero_grad()
             
@@ -137,21 +140,22 @@ def train_model(net, train_dataloader, criterion, optimizer, num_epoch):
     print('Training complete in {:.0f}m {:.0f}s'.format(time_elapsed // 60, time_elapsed % 60))
 
     # net.load_state_dict(best_model_wts)
-    return net, best_acc, best_loss
+    return net, best_acc, best_loss, time_elapsed
 
     
 def f_train(train_list, MODEL_NAME):
-    train_dataset = DogVsCatDataset(train_list[:320], transform=ImageTransform(SIZE, MEAN, STD), phase='train')
+    train_dataset = DogVsCatDataset(train_list, transform=ImageTransform(SIZE, MEAN, STD), phase='train')
     train_dataloader = data.DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=0, pin_memory=True)
 
     
     print('Current Train Model : ' + MODEL_NAME)
 
 
-    if MODEL_NAME in ['efficientnet-b0', 'efficientnet-b1'] : # ~ 30MB
+    if MODEL_NAME in ['efficientnet-b0', 'efficientnet-b1'] : # 20MB, 
         net = EfficientNet.from_pretrained(MODEL_NAME)
         net._fc.out_features = NUM_CLASS
-        update_params_name_1 = ['_fc.weight', '_fc.bias']
+        update_params_name_1 = ['_fc.weight', '_fc.bias', '_conv_head.weight', '_conv_head.bias']
+        
 
     elif MODEL_NAME == 'VGG16': # 524MB
         net = models.vgg16(pretrained=True)
@@ -161,7 +165,7 @@ def f_train(train_list, MODEL_NAME):
     elif MODEL_NAME == 'RESNET50': # 98MB
         net = models.resnet50(pretrained=True)
         net.fc.out_features = NUM_CLASS
-        update_params_name_1 = ['fc.weight', 'fc.bias']
+        update_params_name_1 = ['fc.weight', 'fc.bias','layer3.2.conv1.weight','layer3.2.conv1.bias','layer3.2.conv2.weight','layer3.2.conv2.bias','layer3.2.conv3.weight','layer3.2.conv3.bias']
         
 
     
@@ -171,7 +175,7 @@ def f_train(train_list, MODEL_NAME):
 
     criterion = nn.CrossEntropyLoss()
 
-    net, acc, loss = train_model(net, train_dataloader, criterion, optimizer, NUM_EPOCH)
+    net, acc, loss, time_elapsed = train_model(net, train_dataloader, criterion, optimizer, NUM_EPOCH)
     #print(acc)
     #print(loss)
-    return net, acc, loss
+    return net, acc, loss, 1000*time_elapsed/(NUM_EPOCH*25000)
