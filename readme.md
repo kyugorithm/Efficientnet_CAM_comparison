@@ -20,11 +20,11 @@ This is the classification performance obtained using the vast amount of data fr
 Since the total amount of learning is 5 epoch, the results cannot be considered with perfect accuracy.  
 Furthermore the resolution is set to 128 and there is much room for accuracy to increase if the resolution is increased.  
 VGG and ResNet used the Pre-trained model, while EfficientNet was trained from the beginning.  
-<img src="https://user-images.githubusercontent.com/40943064/133789834-beb2bf4c-c0bb-4e73-b81e-ae79c4485ce3.png" width = 600 align="center">
-  1. EN:B0(96.1%)
-  2. EN:B1(%)
-  3. VGG16(96.0%)
-  4. RES50(%)
-![image](https://user-images.githubusercontent.com/40943064/133790845-cee59c57-8f45-4c8a-9ef6-c376cc35f022.png)
-![image](https://user-images.githubusercontent.com/40943064/133791205-0fa3f9a8-dddf-4dc2-97d0-c90df05e37c4.png)
-![image](https://user-images.githubusercontent.com/40943064/133791580-8eb6e056-8e6e-4788-80f0-f796cbb6e203.png)
+<img src="https://user-images.githubusercontent.com/40943064/133789834-beb2bf4c-c0bb-4e73-b81e-ae79c4485ce3.png" width = 600 align="center">  
+  1. EN:B0(96.1%)  
+  2. EN:B1(%)  
+  3. VGG16(96.0%)  
+  4. RES50(%)  
+![image](https://user-images.githubusercontent.com/40943064/133790845-cee59c57-8f45-4c8a-9ef6-c376cc35f022.png)  
+![image](https://user-images.githubusercontent.com/40943064/133791205-0fa3f9a8-dddf-4dc2-97d0-c90df05e37c4.png)  
+![image](https://user-images.githubusercontent.com/40943064/133791580-8eb6e056-8e6e-4788-80f0-f796cbb6e203.png)  
