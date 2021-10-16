@@ -21,6 +21,7 @@ Since the total amount of learning is 5 epoch, the results cannot be considered 
 Furthermore the resolution is set to 128 and there is much room for accuracy to increase if the resolution is increased.  
 VGG and ResNet used the Pre-trained model, while EfficientNet was trained from the beginning.  
 <img src="https://user-images.githubusercontent.com/40943064/133789834-beb2bf4c-c0bb-4e73-b81e-ae79c4485ce3.png" width = 600 align="center">  
+**update)**  
 **Accuracy**  
   1. EN:B0(96.1%)  
   2. EN:B1(96.6%)  
